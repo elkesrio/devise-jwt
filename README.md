@@ -14,10 +14,10 @@ solution using refresh tokens, like some implementation of OAuth2.
 
 You can read about which security concerns this library takes into account and about JWT generic secure usage in the following series of posts:
 
-- [Stand Up for JWT Revocation](http://waiting-for-dev.github.io/blog/2017/01/23/stand_up_for_jwt_revocation/)
-- [JWT Revocation Strategies](http://waiting-for-dev.github.io/blog/2017/01/24/jwt_revocation_strategies/)
-- [JWT Secure Usage](http://waiting-for-dev.github.io/blog/2017/01/25/jwt_secure_usage/)
-- [A secure JWT authentication implementation for Rack and Rails](http://waiting-for-dev.github.io/blog/2017/01/26/a_secure_jwt_authentication_implementation_for_rack_and_rails/)
+- [Stand Up for JWT Revocation](http://waiting-for-dev.github.io/blog/2017/01/23/stand_up_for_jwt_revocation)
+- [JWT Revocation Strategies](http://waiting-for-dev.github.io/blog/2017/01/24/jwt_revocation_strategies)
+- [JWT Secure Usage](http://waiting-for-dev.github.io/blog/2017/01/25/jwt_secure_usage)
+- [A secure JWT authentication implementation for Rack and Rails](http://waiting-for-dev.github.io/blog/2017/01/26/a_secure_jwt_authentication_implementation_for_rack_and_rails)
 
 `devise-jwt` is just a thin layer on top of [`warden-jwt_auth`](https://github.com/waiting-for-dev/warden-jwt_auth) that configures it to be used out of the box with devise and Rails.
 
@@ -34,21 +34,21 @@ For `Denylist`, you only need to update the `include` line you're using in your 
 include Devise::JWT::RevocationStrategies::Denylist 
 ```
 
-For `Whitelist`, you need to update the `include` line you're using in your user model:
+For `Allowlist`, you need to update the `include` line you're using in your user model:
 
 ```ruby
 # include Devise::JWT::RevocationStrategies::Whitelist # before
 include Devise::JWT::RevocationStrategies::Allowlist
 ```
 
-You also have to rename your `WhitelistedJwt` model to `AllowlistedJwt` and change the underlying database table to `allowlisted_jwts` (or configure the model to keep using the old name).
+You also have to rename your `WhitelistedJwt` model to `AllowlistedJwt`, rename `model/whitelisted_jwt.rb` to `model/allowlisted_jwt.rb` and change the underlying database table to `allowlisted_jwts` (or configure the model to keep using the old name).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'devise-jwt', '~> 0.6.0'
+gem 'devise-jwt'
 ```
 
 And then execute:
@@ -91,7 +91,7 @@ You have to tell which user models you want to be able to authenticate with JWT 
 
 See [request_formats](#request_formats) configuration option if you are using paths with a format segment (like `.json`) in order to use it properly.
 
-As you see, unlike other JWT authentication libraries, it is expected that tokens will be revoked by the server. I wrote about [why I think JWT revocation is needed and useful](http://waiting-for-dev.github.io/blog/2017/01/23/stand_up_for_jwt_revocation/).
+As you see, unlike other JWT authentication libraries, it is expected that tokens will be revoked by the server. I wrote about [why I think JWT revocation is needed and useful](http://waiting-for-dev.github.io/blog/2017/01/23/stand_up_for_jwt_revocation).
 
 An example configuration:
 
@@ -180,7 +180,7 @@ So, if you want to avoid this caveat you have three options:
 
 ### Revocation strategies
 
-`devise-jwt` comes with three revocation strategies out of the box. Some of them are implementations of what is discussed in the blog post [JWT Revocation Strategies](http://waiting-for-dev.github.io/blog/2017/01/24/jwt_revocation_strategies/), where I also talk about their pros and cons.
+`devise-jwt` comes with three revocation strategies out of the box. Some of them are implementations of what is discussed in the blog post [JWT Revocation Strategies](http://waiting-for-dev.github.io/blog/2017/01/24/jwt_revocation_strategies), where I also talk about their pros and cons.
 
 #### JTIMatcher
 
